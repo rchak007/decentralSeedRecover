@@ -16,7 +16,11 @@ This project offers a way to store the seed phrase On Chain in an encrypted fash
 
 
 
-![image-20230707152746039](Images/image-20230707152746039.png)
+![image-20230805080433577](Images/DecentralizedSeedManagementV2.drawio.png)
+
+
+
+
 
 
 
@@ -28,7 +32,7 @@ A web application front end will enable user to first create their Seed phrase.
 
 ### Seed phrase
 
-User will get the seed phrase of 15 word or 24 hr word phrase. They can write it down or keep it like you would normally.
+User will get the seed phrase of 24 hr word phrase. They can write it down or keep it like you would normally.
 
 ### Encrypted Key
 
