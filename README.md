@@ -94,6 +94,74 @@ Then on Cardano blockchain the personal info hashed is used to find the UTXO tha
 
 
 
+### Recursive Encryption 
+
+To increase the computational cost for hackers to brute force we will be using recursively encrypt multiple times to increase the cost to try to hack.
+
+Project will use 100 times + index of word times recursive encryption. The idea is to increase the decrypt computational time cost so brute force algorithms will incur more cost.
+
+
+
+example recursion 3 times- 
+
+Step 1 - 
+
+U2FsdGVkX1+tz5nkrdI4eX34/tBFPy+MeSM2AHTTU2A+CEyqORTdZXqPF5TVXBfn
+
+![image-20230819091501304](Images/image-20230819091501304.png)
+
+Step 2 - 
+
+U2FsdGVkX1+9Y/FrplmURq+6DxLddfn9lZx9zWka6yLydnXhqNBdX3DcNOGmleaq45kP3XuW/Oi2syaONiioXyE0O1te/9tC1NH4ITp2iAzbFsWzWFkaLtSKA19R80dL
+
+
+
+![image-20230819091529558](Images/image-20230819091529558.png)
+
+
+
+
+
+Step 3 - 
+
+U2FsdGVkX19B1Qg9uG4LBlXTJ0I695Hj/ys9kRgUukgH7PTtESyIpEYFZRASyIt+JhKBBxsg/d7punQLGEGXcgOuTHPhgiJwgV4tANa7scKtRp2FJoJkjEDLhs3YG8K3DDUZ93Rs5t2Mozu1tK261Mp0Q2J4tvyir9a5agn6796EiIHmdakzfK1yPMrEqo3XC++KWhjZqoa4Lkusc3dzIQ==
+
+![image-20230819091559387](Images/image-20230819091559387.png)
+
+
+
+
+
+
+
+
+
+Reverse - 
+
+
+
+Step 1  
+
+![image-20230819091713086](Images/image-20230819091713086.png)
+
+
+
+
+
+Step 2 - 
+
+![image-20230819091738107](Images/image-20230819091738107.png)
+
+
+
+Step 3 - 
+
+To get back the original 23 words.
+
+![image-20230819091758045](Images/image-20230819091758045.png)
+
+
+
 
 
 
