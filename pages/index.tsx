@@ -11,6 +11,8 @@ import initLucid from '../utils/lucid'
 const Home: NextPage = () => {
   const walletStore = useStoreState((state: any) => state.wallet)
   const [nftList, setNftList] = useState([])
+  const [jsonData, setJsonData] = useState<any>(null);
+  const [secretData, setSecretData] = useState<any>(null);
 
   useEffect(() => {
     //const lucid = initLucid(walletStore.name)
@@ -19,6 +21,27 @@ const Home: NextPage = () => {
         .then((res: any) => { setNftList(res.addressInfo.nfts) })
     }
   }, [walletStore.address])
+
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch('/secret.json'); // This will automatically fetch from the public folder
+      const data = await response.json();
+      setJsonData(data);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };  
+
+  const fetchSecretData = async () => {
+    try {
+      const response = await fetch('/api/getData');
+      const data = await response.json();
+      setSecretData(data);
+    } catch (error) {
+      console.error('Error fetching secret data:', error);
+    }
+  };  
 
   return (
     <div className="px-10">
@@ -36,14 +59,36 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div>Address: {walletStore.address}</div>
+      <div>Your NFTs:</div>
+      <NftGrid nfts={nftList} />      
       <div className="mx-40 my-10">
-        <Link href="/helios">
+        <Link href="/crowdfund">
           <button className="btn btn-primary m-5" >Smart Contract example</button>
         </Link>
-        <div>Your NFTs:</div>
-        <NftGrid nfts={nftList} />
+        {/* <div>Your NFTs:</div>
+        <NftGrid nfts={nftList} /> */}
       </div>
-    </div>
+      <div>
+        <button className="btn btn-secondary m-5" onClick={fetchData}>Fetch Data</button>
+        {/* <button className="btn btn-secondary m-5" onClick={() => { testCode() }}> testCode</button> */}
+        {jsonData && (
+          <div>
+            {/* <pre>{JSON.stringify(jsonData, null, 2)}</pre>   // this gives the whole JSON file */}  
+            <h2>Item 1 Description: {jsonData.items[0].description}</h2>
+          </div>
+        )}
+      </div>
+      <div>
+        <button className="btn btn-secondary m-5" onClick={fetchSecretData}>Fetch Secret Data</button>
+        {/* <button className="btn btn-secondary m-5" onClick={() => { testCode() }}> testCode</button> */}
+        {secretData && (
+          <div>
+            <pre>{JSON.stringify(secretData, null, 2)}</pre>   // this gives the whole JSON file  
+            <h2> {secretData.seed[0].name} : {secretData.seed[0].description}</h2>
+          </div>
+        )}
+      </div>
+  </div>          
   )
 }
 
