@@ -62,7 +62,7 @@ const Home: NextPage = () => {
       <div>Your NFTs:</div>
       <NftGrid nfts={nftList} />      
       <div className="mx-40 my-10">
-        <Link href="/crowdfund">
+        <Link href="offChain">
           <button className="btn btn-primary m-5" >Smart Contract example</button>
         </Link>
         {/* <div>Your NFTs:</div>
