@@ -18,3 +18,11 @@ a {
 * {
   box-sizing: border-box;
 }
+
+
+#seed {
+  color: blueviolet;
+}
+.tmptest {
+  color: blueviolet;
+}
