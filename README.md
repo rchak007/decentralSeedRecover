@@ -164,6 +164,100 @@ To get back the original 23 words.
 
 
 
+## Pilot Test with Cardano PreProd
+
+
+
+
+
+### UI for the Dapp
+
+
+
+
+
+![image-20231201174055674](Images/image-20231201174055674.png)
+
+
+
+
+
+### Lock and Encrypt Seed Phrase
+
+After providing the 23 / 24 words of seed phrase, index of left out word, Pass phrase for recovery and personal info (for Unique script address) the Dapp will put the encrypted seed phrase with index onChain as Datum.
+
+https://preprod.cardanoscan.io/transaction/d28013ffef2018523b125e2bb81a33eb45422f04877480a662bdcdd1ba45478a
+
+
+
+
+
+
+
+![image-20231201174329324](Images/image-20231201174329324.png)
+
+
+
+
+
+![image-20231201174356755](Images/image-20231201174356755.png)
+
+
+
+
+
+### Datum with Encrypted Seed Phrase 23 words + index of word left out
+
+https://preprod.cardanoscan.io/datumInspector?datum=d8799f5f5840553246736447566b58313830734f713177526b594b745655486674437a4d6d534f7a2f632b6e6f4969754869792f7653683178686b5646626974794e796d2f39584056635975577a57593763527573756544637942546b6c596a485a4a6a6539445363694734417a4f386d70372b365936336571645161345030454155516f4e69555840716b4b33436d7246584c68504b7555757a6c44665033506369743150504d39306c666263382f6f7956322b5177532f4f45632f5a413841783134577a47683553582c6b4b6768384634764e534c7634586d59556444682f2b526a43514b495552695472335745783834754f57343dff581ce9efb9bb50fc3531da4955a7f4d06b22951cbcb373368f978640c3f4ff
+
+
+
+
+
+
+
+![image-20231201174445388](Images/image-20231201174445388.png)
+
+
+
+Console log
+
+![image-20231201174148542](Images/image-20231201174148542.png)
+
+
+
+### Decrypt Seed Words and Redeem
+
+
+
+User will provide the Personal info to locate the script address, the passphrase to decrypt the encrypted words.
+
+
+
+https://preprod.cardanoscan.io/transaction/b633d6f4a4472f872b5d37f3f46fffdb3fb8841e024f2e58f17ce09c3a31861a
+
+
+
+![image-20231201174913684](Images/image-20231201174913684.png)
+
+
+
+This will decrypt the seed phrase and also redeem the min Ada stored at the script.
+
+This way the user has now recovered their lost Seed phrase.
+
+![image-20231201175006897](Images/image-20231201175006897.png)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
