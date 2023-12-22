@@ -236,19 +236,147 @@ https://github.com/rchak007/plutusAppsJambhala/blob/main/src/Deploy.hs
 
 
 
-### OffChain Code
+### OffChain Encryption Lucid Code
+
+
+
+https://github.com/rchak007/decentralSeedRecover/blob/main/pages/offChainV2.tsx
+
+
+
+#### Parameterize the script
+
+Gets the personal info from UI and applies the hash to Plutus script.
+
+```typescript
+const decentralSeedPlutus = "59087f5908...."
+
+      const paramInit :  Params = [{
+        pInfoHash: fromText(hashedDataInString)
+      }];
+      
+      
+      const sValidator : SpendingValidator = {
+        type: "PlutusV2",
+        script: applyParamsToScript<Params>(
+          decentralSeedPlutus,
+          paramInit,
+          Params,
+        ),
+      }
+
+```
+
+
+
+#### Encrypt SeedPhrase into Datum
+
+
+
+```typescript
+ seed23Words = seed23InputValue + ' ' + indexInputValue;
+      passPhrase = passPhraseinputValue;
+
+      const encryptedS = encryptD( seed23Words, passPhrase)   
+      // const encryptedS = encryptSeedPassInfo( seed23Words, passPhrase);
+      console.log("encryptedS = ", encryptedS)
+      // const encryptedString = String(encryptedS)
+      const encryptedString = "testSample1"
+
+      const datumInit : MyDatum = 
+          {
+            encryptedWordsWithIndex: fromText(encryptedS) ,  
+            ownerPKH: paymentCredential?.hash!    // pubkey hash
+          };
+```
+
+
+
+#### Create UTXO with datum
+
+
+
+```typescript
+      const tx = await lucid.newTx()
+        .payToContract(sValAddress, {inline: Data.to( datumInit, MyDatum)}, {lovelace: BigInt(2000000)})
+        .complete();
+        const signedTx = await tx.sign().complete();
+        const txHash = await signedTx.submit();
+        console.log("Lock Test TxHash: " + txHash)
+        settxHash(txHash);
+        return txHash;
+```
 
 
 
 
 
+### OffChain Decryption Lucid Code
 
 
 
+#### Get script address
+
+Gets the personal info from UI and applies the hash to Plutus script to get the script address where UTXO is stored
+
+```typescript
+const decentralSeedPlutus = "59087f5908...."
+
+      const paramInit :  Params = [{
+        pInfoHash: fromText(hashedDataInString)
+      }];
+      
+      
+      const sValidator : SpendingValidator = {
+        type: "PlutusV2",
+        script: applyParamsToScript<Params>(
+          decentralSeedPlutus,
+          paramInit,
+          Params,
+        ),
+      }
+
+```
 
 
 
+#### Get Datum that has encryption
 
+```typescript
+console.log("UTXOs length = ", valUtxos.length)
+        for ( let i=0; i<valUtxos.length; i++ ) {
+          console.log("I = ", i)
+          const curr = valUtxos[i]
+          console.log("Curr on i = ", curr)
+          console.log("Curr datum on i = ", curr)
+            if (!curr.datum) {
+              console.log ("came here after the 1st IF")
+              if (!curr.datumHash) {
+                console.log ("came here after the 1st IF")
+                continue;
+              }
+            }
+```
+
+
+
+#### Decrypt Seed phrase
+
+```typescript
+const encryptedWordsWithIndexFound = utxoInDatum.encryptedWordsWithIndex
+            const ownerPubKeyHashFound = utxoInDatum.ownerPKH
+            console.log("Encrypted words = ", encryptedWordsWithIndexFound)
+            console.log("Owner pubkeyHash = ", ownerPubKeyHashFound)
+
+            // Now Decrypt from the Encrypted word on Datum
+            // const decryptedS = decryptD( toText(utxoInDatum.encryptedWordsWithIndex), passPhrase)
+            const decryptedS = decryptD( toText(encryptedWordsWithIndexFound), passPhrase)
+            console.log("Decrupted 23 words with Index = ", decryptedS)
+            varDecryptWord = decryptedS;
+            const decryptWord = varDecryptWord;
+            // console.log("decryptWord output = ", decryptWord)
+            setdecryptWord(varDecryptWord);   // set the output retrieved words
+```
 
 
 
@@ -262,9 +390,19 @@ https://github.com/rchak007/plutusAppsJambhala/blob/main/src/Deploy.hs
 
 
 
+![image-20231222153440403](Images/image-20231222153440403.png)
 
 
-![image-20231201174055674](Images/image-20231201174055674.png)
+
+
+
+
+
+![image-20231222153453821](Images/image-20231222153453821.png)
+
+
+
+
 
 
 
