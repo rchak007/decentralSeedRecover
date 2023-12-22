@@ -1,3 +1,6 @@
+
+// trying UI with ChatGpt suggestion
+
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import WalletConnect from '../components/WalletConnect'
@@ -1003,132 +1006,100 @@ const offChain: NextPage = () => {
       /> 
   );
 
+
+
+  const compPersonalInfo2 = (
+    <input
+      type="text"
+      id="personalInfo"
+      value={personalInfoinputValue}
+      onChange={handleChangePersonalInfo}
+      placeholder="Enter Personal Info"
+      style={{ width: '1200px' }}
+    />
+  );
+  
+
+
+
+
   return (
-    <div className="px-10">
-      <div className="navbar bg-base-100">
-        <div className="flex-1">
-          <Link href="/" className="btn btn-ghost normal-case text-xl">Cardano</Link>
-        </div>
-        <div className="flex-none">
-          <WalletConnect />
-        </div>
-      </div>
-      <div>My Wallet Address:   {walletStore.address}</div>
-      <div className='m-10'>
-        {/* <p> 
-          Emurgo example
-        </p> */}
-      </div>
-      <div className="mx-10 my-10">
-        {/* <button className="btn btn-primary m-5" onClick={() => { sMintCrowdFundToken() }} >sMintCrowdFundToken</button> */}
-        <button className="btn btn-primary m-0" onClick={() => { sPrintScriptAddress() }} >Get Script Address</button>
-        {/* <button className="btn btn-primary m-5" onClick={() => { sLockEncryptedSeedPhrase() }} >sLockEncryptedSeedPhrase</button> */}
-        {/* <button className="btn btn-secondary m-5" onClick={() => { sSpend() }}>sSpendCrowd</button> */}
-        {/* <button className="btn btn-secondary m-5" onClick={() => { sSpendAndDeposit() }}> sSpendAndDeposit</button> */}
 
-        {/* <button className="btn btn-secondary m-5" onClick={() => { writeToServerFile() }}> writeToServerFile</button> */}
-        {/* <button className="btn btn-secondary m-5" onClick={() => { fetchFirstLine() }}> fetchFirstLine</button> */}
-      </div>
-
-
-
-      <div className="mx-60 my-10">
-        {/* <button className="btn btn-secondary m-5" onClick={() => { createSeedPhrase() }}> createSeedPhrase</button> */}
-        {/* <button className="btn btn-secondary m-5" onClick={() => { createPrivateKey() }}> createPrivateKey</button> */}
-        {/* {privAddress !== null && <p>Result: {privAddress}</p>} */}
-      </div>
-
-
-    
-      {/* <div className="mx-60 my-10" style={{ padding: '120px' }}> */}
-      {/* <form> */}
-          <div className="encryptSeed mx-10 my-10" style={{ padding: '5px'}}>
-                  {/* <p> Test color </p> */}
-                  {/* <label htmlFor="seed"> Enter 23 words Seed Phrase hiding 1 word </label> */}
-                  <input
-                    type="text"
-                    id="seed"
-                    value={seed23InputValue}
-                    onChange={handleChangeSeed}
-                    placeholder="Enter 23 words Seed Phrase hiding 1 word"
-                    style={{ width: '1200px' }} // Set the width to your desired value
-                  />
-
-                  <br />
-                  <br />
-                   {/* we will re-use this in Redeem so make it a variable */}
-                  {compIndex}            
-                  <br />
-                  <br />
-                  {compPassword}        {/* we will re-use this in Redeem so make it a variable */}
-                  <br />
-                  <br />
-                  <div>
-                  {compPersonalInfo}      {/* we will re-use this in Redeem so make it a variable */}
-                  </div>
-                  <br />
-                  <br />
-                  <button className="btn btn-primary m-0" onClick={() => { sLockEncryptedSeedPhrase() }} > Lock & Encrypted SeedPhrase</button>
-
-          </div>
-          <div className="mx-10 my-10">
-              {/* <button className="btn btn-primary m-5" onClick={() => { sDeposit() }} >sDepositCrowd</button> */}
-              {/* <button className="btn btn-secondary m-5" onClick={handleButtonSDeposit}> sDepositCrowd</button> */}
-              {txHash !== null && <p>Tx Hash: {txHash}</p>}
-          </div>
-
-          <div className="redeem mx-10 my-10" style={{ padding: '5px'}}>
-                  <br />
-                  <br />
-                  {compPassword}       {/*   we will re-use this in Redeem so make it a variable */}
-                  <br />
-                  <br />
-                  {compPersonalInfo}    {/*   we will re-use this in Redeem so make it a variable */}
-                  <br />
-                  <br />
-                  {/* <button className="btn btn-primary m-0" onClick={() => { sLockEncryptedSeedPhrase() }} > Lock & Encrypted SeedPhrase</button> */}
-                  <button className="btn btn-secondary m-0" onClick={() => { sDecentralSeedRedeem() }}> Decrypt Seed Words and Redeem</button>
-
-          </div>
-
-          <div className="mx-10 my-10">
-                    {decryptWord !== null && <p>Decrypted Seed Phrase and Index : {decryptWord}</p>}
-          </div>
-
-
-      <div className="mx-60 my-10" style={{ padding: '40px'}}>
-          {/* <input
-           type="text"
-          value={inputPrivateKey}
-          onChange={handleChangePrivateKey}
-          placeholder="Enter your Private key"
-          style={{ width: '800px' }} // Set the width to your desired value
-          /> */}
-          {/* <button className="btn btn-secondary m-5" onClick={handleButtonClickPriv}> Show Address for Private Key</button> */}
-          {/* {privAddress !== null && <p>Address: {privAddress}</p>} */}
-      </div>
-        {/* <button className="btn btn-secondary m-5" onClick={() => { unlockGuess() }}>Unlock Guess</button>
-        <button className="btn btn-secondary m-5" onClick={() => { deploySequentialMint("Boo") }}>Deploy Sequential Mint</button>
-        <button className="btn btn-secondary m-5" onClick={() => { getOffers(paymentCredentialOf(walletStore.address)) }}>Unlock Guess</button> */}
-      <div className="mx-60 my-10">
-        {/* <button className="btn btn-secondary m-5" onClick={() => { testCodeEncryption() }}> testCodeEncryption</button> */}
-        {/* <h1>First Line from File:</h1> */}
-        {/* <p>{firstLine}</p> */}
-      </div>
-      <div className="mx-60 my-10">
-        {/* <button className="btn btn-secondary m-5" onClick={() => { testCode() }}> testCode</button> */}
-      </div>      
-      <div>
-        {/* <button className="btn btn-secondary m-5" onClick={fetchSecretData}>Fetch Secret Data</button> */}
-        {/* <button className="btn btn-secondary m-5" onClick={() => { testCode() }}> testCode</button> */}
-        {readSecretData && (
-          <div>
-            <pre>{JSON.stringify(readSecretData, null, 2)}</pre>   // this gives the whole JSON file  
-            <h2> {readSecretData.seed[0].name} : {readSecretData.seed[0].description}</h2>
-          </div>
-        )}
-      </div>      
+<div className="px-10 font-montserrat text-gray-300 bg-gray-800">
+  
+  <div className="navbar bg-gray-900"> 
+  {/* <div className="mt-10 p-5 bg-gray-700 rounded-lg shadow-xl mx-60"> */}
+    <div className="flex-1">
+      <Link href="/" className="btn text-xl text-white">Cardano</Link>
     </div>
+    <div className="flex-none">
+      <WalletConnect />
+    </div>
+  </div>
+
+  {/* <div className="text-center my-5 text-lg"> */}
+  <div className="mt-10 p-5 bg-gray-700 rounded-lg shadow-xl mx-60">
+    <span className="font-semibold">My Wallet Address:</span> {walletStore.address}
+  </div>
+
+  {/* <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mx-10 my-10"> */}
+  <div className="mt-10 p-5 bg-gray-700 rounded-lg shadow-xl mx-60">
+    <button className="btn bg-gradient-to-r from-blue-500 to-teal-400 hover:scale-105 text-white rounded-lg shadow-lg" onClick={() => { sPrintScriptAddress() }}>Get Script Address</button>
+    {/* Other buttons can be added here in similar style */}
+    {/* Uncomment and style other buttons as needed */}
+  </div>
+
+  <div className="mt-10 p-5 bg-gray-700 rounded-lg shadow-xl mx-60">
+    <input
+      type="text"
+      id="seed"
+      value={seed23InputValue}
+      onChange={handleChangeSeed}
+      placeholder="Enter 23 words Seed Phrase hiding 1 word"
+      className="w-full px-4 py-2 bg-gray-600 border border-gray-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+    />
+    <br />
+    <br />
+      {/* we will re-use this in Redeem so make it a variable */}
+    {compIndex}            
+    <br />
+    <br />
+    {compPassword}        {/* we will re-use this in Redeem so make it a variable */}
+    <br />
+    <br />
+    <div>
+    {compPersonalInfo2}      {/* we will re-use this in Redeem so make it a variable */}
+    </div>
+    <br />
+    <br />
+    <button className="btn bg-gradient-to-r from-green-500 to-blue-400 hover:scale-105 text-white rounded-lg shadow-lg mt-5" onClick={() => { sLockEncryptedSeedPhrase() }}>Lock & Encrypt SeedPhrase</button>
+    {/* Include other components or buttons here as needed */}
+  </div>
+
+  <div className="mx-10 my-10">
+    {txHash !== null && <p>Tx Hash: {txHash}</p>}
+    {/* Include other transaction-related components here */}
+  </div>
+
+  <div className="redeem mt-10 p-5 bg-gray-700 rounded-lg shadow-xl mx-60">
+      <br />
+      <br />
+      {compPassword}       {/*   we will re-use this in Redeem so make it a variable */}
+      <br />
+      <br />
+      {compPersonalInfo}    {/*   we will re-use this in Redeem so make it a variable */}
+      <br />
+      <br />
+    <button className="btn bg-gradient-to-r from-purple-500 to-pink-400 hover:scale-105 text-white rounded-lg shadow-lg" onClick={() => { sDecentralSeedRedeem() }}>Decrypt Seed Words and Redeem</button>
+    {/* Include other components or buttons here as needed */}
+  </div>
+
+  <div className="mx-10 my-10">
+    {decryptWord !== null && <p>Decrypted Seed Phrase and Index : {decryptWord}</p>}
+    {/* Include other display components or messages here */}
+  </div>
+</div>
+
     
   )   // End return
 }

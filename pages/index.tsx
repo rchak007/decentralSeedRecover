@@ -28,7 +28,7 @@ const Home: NextPage = () => {
     }
 
     // for Redirect to offChain.tsx
-    router.push('/offChain');
+    router.push('/offChainV2');
   }, [walletStore.address])
 
 
