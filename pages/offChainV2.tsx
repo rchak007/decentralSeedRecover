@@ -905,11 +905,12 @@ const offChain: NextPage = () => {
 
   // https://github.com/brix/crypto-js/blob/develop/test/aes-test.js
 
-// Encrypt function
-  function encryptD(text: string, key: string): string {
+
     // const keyWordArray = CryptoJS.enc.Utf8.parse(key);
     // console.log("Key type = ", typeof(key))
     // const encrypted = CryptoJS.AES.encrypt(text, keyWordArray);
+  // Encrypt function
+  function encryptD(text: string, key: string): string {
     const encrypted = CryptoJS.AES.encrypt(text, key);
     return encrypted.toString(); // Convert to Base64 string
   }

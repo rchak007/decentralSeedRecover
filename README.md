@@ -232,11 +232,59 @@ mkRequestValidator sParam dat _ ctx =
 
 
 
+#### Reference Serialize
+
+```haskell
+-- referenceInstance :: Scripts.Validator
+referenceInstance :: Validator
+-- referenceInstance = Api.Validator $ Api.fromCompiledCode $$(PlutusTx.compile [||wrap||])
+referenceInstance = Validator $ fromCompiledCode $$(PlutusTx.compile [||wrap||])
+  where
+    -- wrap l1 = Scripts.mkUntypedValidator $ mkRequestValidator (PlutusTx.unsafeFromBuiltinData l1)
+    wrap l1 = mkUntypedValidator $ mkRequestValidator (PlutusTx.unsafeFromBuiltinData l1)
+    
+    
+    
+
+referenceSerialized :: Haskell.String
+referenceSerialized =
+  C.unpack $
+    B16.encode $
+      serialiseToCBOR
+        -- ((PlutusScriptSerialised $ SBS.toShort . LBS.toStrict $ serialise $ Api.unValidatorScript referenceInstance) :: PlutusScript PlutusScriptV2)
+        ((PlutusScriptSerialised $ SBS.toShort . LBS.toStrict $ serialise $ unValidatorScript referenceInstance) :: PlutusScript PlutusScriptV2)
+```
+
+
+
+
+
+
+
 #### Deploy
 
 To get the .plutus script
 
 https://github.com/rchak007/plutusAppsJambhala/blob/main/src/Deploy.hs
+
+
+
+```haskell
+scripts :: Scripts
+scripts = Scripts {reference = Contracts.SeedPhraseManager.referenceSerialized}
+
+main :: IO ()
+main = do
+  -- writeInitDatum
+  -- writeContractDatum
+
+  -- _ <- writeValidatorScript
+  -- _ <- writeLucidValidatorScript
+  I.writeFile "scripts.json" (encodeToLazyText scripts)
+  putStrLn "Scripts compiled"
+
+  return ()
+```
 
 
 
@@ -247,6 +295,44 @@ https://github.com/rchak007/plutusAppsJambhala/blob/main/src/Deploy.hs
 
 
 https://github.com/rchak007/decentralSeedRecover/blob/main/pages/offChainV2.tsx
+
+
+
+
+
+#### Parameter, Datum and Redeemer
+
+```typescript
+  const ParamsSchema = Data.Tuple([
+      Data.Object({
+        pInfoHash: Data.Bytes()
+      })
+    ]);
+  type Params = Data.Static<typeof ParamsSchema>;
+  const Params = ParamsSchema as unknown as Params;
+
+  const MyDatumSchema = 
+      Data.Object({
+        encryptedWordsWithIndex: Data.Bytes(),
+        ownerPKH: Data.Bytes()
+      })
+
+  type MyDatum = Data.Static<typeof MyDatumSchema>;
+  const MyDatum = MyDatumSchema as unknown as MyDatum;
+
+  const Redeemer = () => Data.void();
+```
+
+
+
+
+
+```typescript
+// Function that will Lock the UTXO with this Datum 
+const sLockEncryptedSeedPhrase = async () => {
+    ....
+    ....
+```
 
 
 
@@ -280,7 +366,8 @@ const decentralSeedPlutus = "59087f5908...."
 
 
 ```typescript
- seed23Words = seed23InputValue + ' ' + indexInputValue;
+
+	  seed23Words = seed23InputValue + ' ' + indexInputValue;
       passPhrase = passPhraseinputValue;
 
       const encryptedS = encryptD( seed23Words, passPhrase)   
@@ -294,6 +381,15 @@ const decentralSeedPlutus = "59087f5908...."
             encryptedWordsWithIndex: fromText(encryptedS) ,  
             ownerPKH: paymentCredential?.hash!    // pubkey hash
           };
+
+
+
+...
+  // Encrypt function
+  function encryptD(text: string, key: string): string {
+    const encrypted = CryptoJS.AES.encrypt(text, key);
+    return encrypted.toString(); // Convert to Base64 string
+  }
 ```
 
 
@@ -303,7 +399,11 @@ const decentralSeedPlutus = "59087f5908...."
 
 
 ```typescript
-      const tx = await lucid.newTx()
+
+...
+....
+
+		const tx = await lucid.newTx()
         .payToContract(sValAddress, {inline: Data.to( datumInit, MyDatum)}, {lovelace: BigInt(2000000)})
         .complete();
         const signedTx = await tx.sign().complete();
@@ -318,6 +418,16 @@ const decentralSeedPlutus = "59087f5908...."
 
 
 ### OffChain Decryption Lucid Code
+
+
+
+
+
+Function `  const sDecentralSeedRedeem = async () => {` decrypts the encrypted seed phrase.
+
+```typescript
+  const sDecentralSeedRedeem = async () => {
+```
 
 
 
@@ -341,15 +451,21 @@ const decentralSeedPlutus = "59087f5908...."
           Params,
         ),
       }
+      
+      // this gets our address
+      const sValAddress = lucid.utils.validatorToAddress(sValidator)
 
 ```
 
 
 
-#### Get Datum that has encryption
+#### Get Datum that has encrypted Seed phrase
 
 ```typescript
-console.log("UTXOs length = ", valUtxos.length)
+....
+// we get the UTXO's at this address
+const valUtxos = await lucid.utxosAt(sValAddress)
+....
         for ( let i=0; i<valUtxos.length; i++ ) {
           console.log("I = ", i)
           const curr = valUtxos[i]
@@ -369,7 +485,10 @@ console.log("UTXOs length = ", valUtxos.length)
 #### Decrypt Seed phrase
 
 ```typescript
-const encryptedWordsWithIndexFound = utxoInDatum.encryptedWordsWithIndex
+			
+
+
+			const encryptedWordsWithIndexFound = utxoInDatum.encryptedWordsWithIndex
             const ownerPubKeyHashFound = utxoInDatum.ownerPKH
             console.log("Encrypted words = ", encryptedWordsWithIndexFound)
             console.log("Owner pubkeyHash = ", ownerPubKeyHashFound)
@@ -382,6 +501,16 @@ const encryptedWordsWithIndexFound = utxoInDatum.encryptedWordsWithIndex
             const decryptWord = varDecryptWord;
             // console.log("decryptWord output = ", decryptWord)
             setdecryptWord(varDecryptWord);   // set the output retrieved words
+
+
+
+  // Decrypt function
+  function decryptD(encryptedText: string, key: string): string {
+    // const keyWordArray = CryptoJS.enc.Utf8.parse(key);
+    const decrypted = CryptoJS.AES.decrypt(encryptedText, key);
+    // const decrypted = CryptoJS.PBKDF2(encryptedText, key);
+    return decrypted.toString(CryptoJS.enc.Utf8);
+  }
 ```
 
 
